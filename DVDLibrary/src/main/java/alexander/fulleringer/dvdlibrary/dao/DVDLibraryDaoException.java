@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package alexander.fulleringer.dvdlibrary.ui;
+package alexander.fulleringer.dvdlibrary.dao;
 
 /**
  *
  * @author Alex
  */
-public class UserIOConsolImpl {
+public class DVDLibraryDaoException extends Exception {
     
 }
