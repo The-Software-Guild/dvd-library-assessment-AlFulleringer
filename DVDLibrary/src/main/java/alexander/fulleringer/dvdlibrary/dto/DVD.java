@@ -83,16 +83,6 @@ public class DVD {
         this.miscInfo = miscInfo;
     }
 
-    public String getDisplayString() {
-        String s = "";
-        s += "Title: " + title;
-        s += " Director: " + directorName;
-        s += " Studio: " + studio;
-        s += " Release Date: " + releaseDate;
-        s += " Misc: " + miscInfo;
-        
-        return s;
-    }
     
     
     

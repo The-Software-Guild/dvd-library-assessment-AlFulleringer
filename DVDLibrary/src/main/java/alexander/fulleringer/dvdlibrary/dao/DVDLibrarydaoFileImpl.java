@@ -32,12 +32,12 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     
 
     public DVD getDVD(String DVDTitle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return library.get(DVDTitle);
     }
     
 
     public DVD removeDVD(String DVDTitle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return library.remove(DVDTitle);
     }
     
 }

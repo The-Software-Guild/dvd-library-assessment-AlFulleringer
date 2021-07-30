@@ -16,7 +16,7 @@ public class DVDLibraryView {
     
     //To be injected later
     private UserIO io = new UserIOConsoleImpl();
-    private final int NUM_OPTIONS = 7;
+    private final int NUM_OPTIONS = 6;
     public int printMenuGetSelection(){
         this.printMenu();
         return this.getMenuChoice();
@@ -46,23 +46,38 @@ public class DVDLibraryView {
         System.out.println("3. Edit information on an existing DVD");
         System.out.println("4. See a list of all DVDs in your collection");
         System.out.println("5. Display information on a specific DVD");
-        System.out.println("6. Display info for a particular DVD");
-        System.out.println("7. Exit your DVD library"); //Combine 5 and 6?
+        System.out.println("6. Exit your DVD library"); //Combine 5 and 6?
     }
     public void displayCreateDVDBanner(){
         io.print("--- Add a DVD to your library ---");
     }
     
-    public void print(String s){
-        io.print(s);
+    public void displayLibrary(List<DVD> theLibrary){
+        for( DVD dvd : theLibrary){
+            displayDVD(dvd);
+        }
+    }
+    public void displayDVD(DVD dvd){
+        if (dvd != null){
+            String s = "";
+            s += "Title: " + dvd.getTitle();
+            s += ", Director: " + dvd.getDirectorName();
+            s += ", Studio: " + dvd.getStudio();
+            s += ", Release Date: " + dvd.getReleaseDate();
+            s += ", Misc: " + dvd.getMiscInfo();
+            io.print(s);
+        }
+        else{
+            io.print("You don't own that dvd.");
+        }
     }
     
-    public String getString(String s){
-        return io.readString(s);
+    public void displayDisplayDVDBanner(){
+        io.print("--- Search for a DVD ---");
     }
     
     public void displayCreateSuccessBanner() {
-        io.readString("DVD creation successful!\nPlease hit enter to continue.");
+        io.readString("DVD creation successful!\nPlease hit enter to continue.\n");
     }
     
     public void displayDisplayAllBanner(){
@@ -72,12 +87,43 @@ public class DVDLibraryView {
     public int getMenuChoice(){
         return io.readInt("Please select one of the above choices.",1,NUM_OPTIONS);
     }
-    public void displayLibrary(List<DVD> theLibrary){
-        for( DVD dvd : theLibrary){
-            System.out.println(dvd.getDisplayString());
-        }
+    
+    
+//     public void print(String s){
+//        io.print(s);
+//    }
+    
+    
+    
+    public String getDVDTitle() {
+        return io.readString("What is the title of the DVD you are looking for?");
     }
-    public void displayDVD(DVD dvd){
-        System.out.println(dvd.getDisplayString());
+    
+    public void displayFindDVDCompletion() {
+        io.readString("Press enter to continue\n");
+    }
+    
+    public void displayDropDVDBanner() {
+        io.print("--- Drop a DVD ---");
+    }
+    
+    public void displayDropSuccessBanner() {
+        io.readString("Please hit enter to continue.\n");
+    }
+    
+    public void displayDisplayLibrarySuccess() {
+        io.readString("Library display complete.\nPlease hit enter to continue.\n");
+    }
+    
+    public void displayDropResult(DVD toDrop) {
+        if (toDrop!=null){
+            displayDVD(toDrop);
+            io.print("DVD successfully removed from library");
+        }
+        else{
+            io.print("No such DVD is in your library");
+        }
+        
+        io.readString("Please press enter to continue");
     }
 }

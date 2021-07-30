@@ -46,6 +46,7 @@ public class DVDLibraryController {
                     break;
                 case 2:
                     io.print("DROP DVD");
+                    dropDVD();
                     break;
                 case 3:
                     io.print("EDIT DVD");
@@ -58,9 +59,6 @@ public class DVDLibraryController {
                     findDVD();
                     break;
                 case 6:
-                    io.print("DVD SEARCH");
-                    break;
-                case 7:
                     loop = false;
                     break;
                 default:
@@ -82,11 +80,22 @@ public class DVDLibraryController {
     private void listDVDs() {
         view.displayDisplayAllBanner();
         view.displayLibrary(dao.getAllDVDs());
+        view.displayDisplayLibrarySuccess();
     }
     private void findDVD(){
-        String dvdTitle = view.getString("Please enter the title of the DVD you'd like to learn more about!");
+        view.displayDisplayDVDBanner();
+        String dvdTitle = view.getDVDTitle();
         DVD toDisplay = dao.getDVD(dvdTitle);
         view.displayDVD(toDisplay);
+        view.displayFindDVDCompletion();
+    }
+
+    private void dropDVD() {
+        view.displayDropDVDBanner();
+        String titleToDrop = view.getDVDTitle();
+        DVD toDrop = dao.removeDVD(titleToDrop);
+        view.displayDropResult(toDrop);
+
     }
    
 }
