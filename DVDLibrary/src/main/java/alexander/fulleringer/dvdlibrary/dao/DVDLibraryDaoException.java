@@ -11,4 +11,12 @@ package alexander.fulleringer.dvdlibrary.dao;
  */
 public class DVDLibraryDaoException extends Exception {
     
+    public DVDLibraryDaoException(String s){
+        super(s);
+    }
+     
+    public DVDLibraryDaoException(String message, Throwable cause) {
+        super(message, cause);
+    }
+    
 }

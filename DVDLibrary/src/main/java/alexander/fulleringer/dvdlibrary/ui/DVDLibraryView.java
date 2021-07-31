@@ -5,6 +5,7 @@
 */
 package alexander.fulleringer.dvdlibrary.ui;
 
+import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDaoException;
 import alexander.fulleringer.dvdlibrary.dto.DVD;
 import java.util.List;
 
@@ -14,12 +15,13 @@ import java.util.List;
  */
 public class DVDLibraryView {
     
-    //To be injected later
     private UserIO io = new UserIOConsoleImpl();
-    private final int NUM_OPTIONS = 6;
+    private final int NUM_MAIN_MENU_OPTIONS = 6;
+    private final int NUM_EDIT_MENU_OPTIONS = 7;
+    
     public int printMenuGetSelection(){
         this.printMenu();
-        return this.getMenuChoice();
+        return this.getMenuChoice(NUM_MAIN_MENU_OPTIONS);
     }
     /**
      * This function asks a user for input to fill out the required fields to make and return a new DVD
@@ -37,6 +39,8 @@ public class DVDLibraryView {
         
         return newDVD;
     }
+    
+    
     public void printMenu(){
         System.out.println("Welcome to your DVD Library Application!");
         System.out.println("Your options are as follows:");
@@ -46,7 +50,7 @@ public class DVDLibraryView {
         System.out.println("3. Edit information on an existing DVD");
         System.out.println("4. See a list of all DVDs in your collection");
         System.out.println("5. Display information on a specific DVD");
-        System.out.println("6. Exit your DVD library"); //Combine 5 and 6?
+        System.out.println("6. Exit your DVD library");
     }
     public void displayCreateDVDBanner(){
         io.print("--- Add a DVD to your library ---");
@@ -64,6 +68,7 @@ public class DVDLibraryView {
             s += ", Director: " + dvd.getDirectorName();
             s += ", Studio: " + dvd.getStudio();
             s += ", Release Date: " + dvd.getReleaseDate();
+            s += ", MPAA Rating: " + dvd.getMpaaRating();
             s += ", Misc: " + dvd.getMiscInfo();
             io.print(s);
         }
@@ -84,15 +89,9 @@ public class DVDLibraryView {
         System.out.println("Here are all the DVDs in your collection!");
     }
     
-    public int getMenuChoice(){
-        return io.readInt("Please select one of the above choices.",1,NUM_OPTIONS);
+    public int getMenuChoice(int numOptions){
+        return io.readInt("Please select one of the above choices.",1,numOptions);
     }
-    
-    
-//     public void print(String s){
-//        io.print(s);
-//    }
-    
     
     
     public String getDVDTitle() {
@@ -125,5 +124,64 @@ public class DVDLibraryView {
         }
         
         io.readString("Please press enter to continue");
+    }
+    
+    public void displayEditDVDBanner() {
+        io.print("---Edit an existing entry DVD---");
+        
+    }
+    
+    public int displayEditMenuGetSelection() {
+        System.out.println("Which information would you like to edit?");
+        System.out.println("Your options are as follows:");
+        
+        System.out.println("1. Title");
+        System.out.println("2. Director");
+        System.out.println("3. MPAA Rating");
+        System.out.println("4. Release Date");
+        System.out.println("5. Studio");
+        System.out.println("6. Additional Information");
+        System.out.println("7. Exit editor");
+        
+        return this.getMenuChoice(NUM_EDIT_MENU_OPTIONS);
+    }
+    
+    public String getNewDVDTitle() {
+        return (io.readString("Enter the new title"));
+        
+    }
+    
+    public void displayPressEnter(){
+        io.readString("Press enter to continue.");
+        io.print("");
+    }
+    
+    public void editDVDDirector(DVD toEdit) {
+        toEdit.setDirectorName(io.readString("Enter the new director"));
+    }
+    
+    public void editDVDMpaaRating(DVD toEdit) {
+        toEdit.setMpaaRating(io.readString("Enter the new rating"));
+    }
+    
+    public void editDVDReleaseDate(DVD toEdit) {
+        toEdit.setReleaseDate(io.readString("Enter the new release date"));
+    }
+    
+    public void editDVDStudio(DVD toEdit) {
+        toEdit.setStudio(io.readString("Enter the new studio"));
+    }
+    
+    public void editDVDMiscInfo(DVD toEdit) {
+        toEdit.setMiscInfo(io.readString("Enter the new misc information"));
+    }
+    
+    public void displayDVDToEditNotFound() {
+        io.readString("The DVD you wanted to edit was not in your library\n"
+                + "Press enter to continue.");
+    }
+    public void printErrorMessage(DVDLibraryDaoException e){
+        io.print("ERROR");
+        io.print(e.getMessage());
     }
 }

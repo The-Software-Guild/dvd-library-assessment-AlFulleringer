@@ -24,7 +24,7 @@ public interface DVDLibraryDao {
      * @return the DVD object previously associated with the given  
      * DVD id if it exists, null otherwise
      */
-    DVD addDVD(String DVDId, DVD dvd);
+    DVD addDVD(String DVDId, DVD dvd)throws DVDLibraryDaoException;
 
     /**
      * Returns a List of all DVDs in the roster.
@@ -52,5 +52,11 @@ public interface DVDLibraryDao {
      * @return DVD object that was removed or null if no DVD
      * was associated with the given DVD id
      */
-    DVD removeDVD(String DVDId);
+    DVD removeDVD(String DVDId)throws DVDLibraryDaoException;
+    
+    void persistChanges() throws DVDLibraryDaoException;
+    void loadData() throws DVDLibraryDaoException;
+
+    public void editDVDTitle(DVD toEdit, String newData) throws DVDLibraryDaoException;
+
 }

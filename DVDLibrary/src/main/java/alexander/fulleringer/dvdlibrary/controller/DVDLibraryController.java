@@ -6,6 +6,7 @@
 package alexander.fulleringer.dvdlibrary.controller;
 
 import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDao;
+import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDaoException;
 import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDaoFileImpl;
 import alexander.fulleringer.dvdlibrary.dto.DVD;
 import alexander.fulleringer.dvdlibrary.ui.DVDLibraryView;
@@ -29,13 +30,21 @@ public class DVDLibraryController {
     }
 
     public DVDLibraryController() {
-        this.dao = new DVDLibraryDaoFileImpl();
-        this.view = new DVDLibraryView();
         this.io = new UserIOConsoleImpl();
+        this.view = new DVDLibraryView();
+        
+        try{
+            this.dao = new DVDLibraryDaoFileImpl();
+        }
+        catch(DVDLibraryDaoException e){
+            view.printErrorMessage(e);
+        }
+        
+       
 
     }
     
-    public void run(){
+    public void run() throws DVDLibraryDaoException{
         boolean loop= true;
         while(loop){
             int option = this.view.printMenuGetSelection();
@@ -45,17 +54,15 @@ public class DVDLibraryController {
                     createAndAddDVD();
                     break;
                 case 2:
-                    io.print("DROP DVD");
                     dropDVD();
                     break;
                 case 3:
-                    io.print("EDIT DVD");
+                    editDVD();
                     break;
                 case 4:
                     listDVDs();
                     break; 
                 case 5:
-                    io.print("DISPLAY DVD INFO");
                     findDVD();
                     break;
                 case 6:
@@ -70,7 +77,7 @@ public class DVDLibraryController {
         
     }
 
-    private void createAndAddDVD() {
+    private void createAndAddDVD() throws DVDLibraryDaoException {
         view.displayCreateDVDBanner();
         DVD newDVD = view.getNewDVD();
         dao.addDVD(newDVD.getTitle(), newDVD);
@@ -90,14 +97,71 @@ public class DVDLibraryController {
         view.displayFindDVDCompletion();
     }
 
-    private void dropDVD() {
+    private void dropDVD() throws DVDLibraryDaoException{
         view.displayDropDVDBanner();
         String titleToDrop = view.getDVDTitle();
         DVD toDrop = dao.removeDVD(titleToDrop);
         view.displayDropResult(toDrop);
 
     }
+
+    private void editDVD() throws DVDLibraryDaoException{
+        view.displayEditDVDBanner();
+        String titleToEdit = view.getDVDTitle();
+        DVD toEdit = dao.getDVD(titleToEdit);
+        boolean loop = true;
+        if(toEdit!= null) {
+            
+            while(loop){
+               
+            view.displayDVD(toEdit);
+            int option = view.displayEditMenuGetSelection();
+            switch (option) {
+                case 1:
+                    //dao.removeDVD(toEdit.getTitle());
+                    //dao.addDVD(toEdit.getTitle(), toEdit);
+                    
+                    String newData = view.getNewDVDTitle();
+                    dao.editDVDTitle(toEdit, newData);
+                    
+                    break;
+                case 2:
+                    view.editDVDDirector(toEdit);
+                    dao.persistChanges();
+                    break;
+                case 3:
+                    view.editDVDMpaaRating(toEdit);
+                    dao.persistChanges();
+                    break;
+                case 4:
+                    view.editDVDReleaseDate(toEdit);
+                    dao.persistChanges();
+                    break; 
+                case 5:
+                    view.editDVDStudio(toEdit);
+                    dao.persistChanges();
+                    break;
+                case 6:
+                    view.editDVDMiscInfo(toEdit);
+                    dao.persistChanges();
+                    break;
+                case 7:
+                    loop = false;
+                    break;
+                default:
+                    io.print("UNKNOWN COMMAND");
+            }
+            //Save edits to file.
+            
+            //dao.readFile();
+            view.displayPressEnter();
+        }
+    }
+        else{
+            view.displayDVDToEditNotFound();
+        }
+        
+    }
+    
    
 }
-
-
