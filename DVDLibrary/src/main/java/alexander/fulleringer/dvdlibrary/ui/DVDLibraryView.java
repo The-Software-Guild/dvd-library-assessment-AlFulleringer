@@ -188,8 +188,12 @@ public class DVDLibraryView {
         io.print("ERROR");
         io.print(e.getMessage());
     }
-
+    
     public void displayGoodBye() {
         io.print("Good Bye!");
+    }
+    
+    public void displayUnkownCommandBanner() {
+        io.print("UNKNOWN COMMAND");
     }
 }

@@ -70,7 +70,7 @@ public class DVDLibraryController {
                     loop = false;
                     break;
                 default:
-                    io.print("UNKNOWN COMMAND");
+                    view.displayUnkownCommandBanner();
             }
             
         }
@@ -119,7 +119,8 @@ public class DVDLibraryController {
                
             view.displayDVD(toEdit);
             int option = view.displayEditMenuGetSelection();
-            switch (option) {
+            switch (option) 
+            {
                 //Edit Title
                 case 1:
                     String newData = view.getNewDVDTitle();
@@ -155,11 +156,8 @@ public class DVDLibraryController {
                     loop = false;
                     break;
                 default:
-                    io.print("UNKNOWN COMMAND");
+                    view.displayUnkownCommandBanner();
             }
-            //Save edits to file.
-            
-            //dao.readFile();
             view.displayPressEnter();
         }
     }
