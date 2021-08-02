@@ -184,4 +184,8 @@ public class DVDLibraryView {
         io.print("ERROR");
         io.print(e.getMessage());
     }
+
+    public void displayGoodBye() {
+        io.print("Good Bye!");
+    }
 }

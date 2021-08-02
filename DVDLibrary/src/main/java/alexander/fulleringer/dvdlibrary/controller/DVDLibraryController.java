@@ -73,7 +73,8 @@ public class DVDLibraryController {
             }
             
         }
-        io.print("GOOD BYE");
+        dao.persistChanges();
+        view.displayGoodBye();
         
     }
 
@@ -123,7 +124,6 @@ public class DVDLibraryController {
                     
                     String newData = view.getNewDVDTitle();
                     dao.editDVDTitle(toEdit, newData);
-                    
                     break;
                 case 2:
                     view.editDVDDirector(toEdit);

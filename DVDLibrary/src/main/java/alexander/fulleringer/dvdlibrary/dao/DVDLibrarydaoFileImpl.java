@@ -79,6 +79,8 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
             toWrite = getMarshallDVDString(dvd);
             out.println(toWrite);
         }
+        out.flush();
+        out.close();
      
     }
     
@@ -152,7 +154,10 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override
     public void editDVDTitle(DVD toEdit, String newData) throws DVDLibraryDaoException {
+        //We have to update the key as well so first remove the dvd.
+        removeDVD(toEdit.getTitle());
         toEdit.setTitle(newData);
+        addDVD(toEdit.getTitle(), toEdit);
         persistChanges();
     }
 }
