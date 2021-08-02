@@ -28,7 +28,7 @@ public class App {
         
         try{
             dao = new DVDLibraryDaoFileImpl();
-            DVDLibraryController controller = new DVDLibraryController(dao, view, io);
+            DVDLibraryController controller = new DVDLibraryController(dao, view);
             controller.run();
         }
         catch(DVDLibraryDaoException e){

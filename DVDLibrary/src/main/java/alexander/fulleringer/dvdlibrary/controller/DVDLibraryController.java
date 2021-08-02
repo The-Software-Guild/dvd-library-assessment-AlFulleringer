@@ -10,8 +10,8 @@ import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDaoException;
 import alexander.fulleringer.dvdlibrary.dao.DVDLibraryDaoFileImpl;
 import alexander.fulleringer.dvdlibrary.dto.DVD;
 import alexander.fulleringer.dvdlibrary.ui.DVDLibraryView;
-import alexander.fulleringer.dvdlibrary.ui.UserIO;
-import alexander.fulleringer.dvdlibrary.ui.UserIOConsoleImpl;
+//import alexander.fulleringer.dvdlibrary.ui.UserIO;
+//import alexander.fulleringer.dvdlibrary.ui.UserIOConsoleImpl;
 
 
 /**
@@ -21,30 +21,26 @@ import alexander.fulleringer.dvdlibrary.ui.UserIOConsoleImpl;
 public class DVDLibraryController {
     DVDLibraryDao dao;
     DVDLibraryView view;
-    UserIO io;
+    //UserIO io;
     
-    public DVDLibraryController(DVDLibraryDao dao, DVDLibraryView view, UserIO io) {
+    public DVDLibraryController(DVDLibraryDao dao, DVDLibraryView view) {
         this.dao = dao;
         this.view = view;
-        this.io = io;
-    }
-
-    //Used for testing before implementing Dependency Injection
-    public DVDLibraryController() {
-        this.io = new UserIOConsoleImpl();
-        this.view = new DVDLibraryView(io);
-        
-        try{
-            this.dao = new DVDLibraryDaoFileImpl();
-        }
-        catch(DVDLibraryDaoException e){
-            view.printErrorMessage(e);
-        }
-        
-       
-
+        //this.io = io;
     }
     
+    //Used for testing before implementing Dependency Injection
+//    public DVDLibraryController() {
+//        this.io = new UserIOConsoleImpl();
+//        this.view = new DVDLibraryView(io);
+//
+//        try{
+//            this.dao = new DVDLibraryDaoFileImpl();
+//        }
+//        catch(DVDLibraryDaoException e){
+//            view.printErrorMessage(e);
+//        }
+//     }
     public void run() throws DVDLibraryDaoException{
         boolean loop= true;
         while(loop){
@@ -62,7 +58,7 @@ public class DVDLibraryController {
                     break;
                 case 4:
                     listDVDs();
-                    break; 
+                    break;
                 case 5:
                     findDVD();
                     break;
@@ -78,19 +74,20 @@ public class DVDLibraryController {
         view.displayGoodBye();
         
     }
-
+    
     private void createAndAddDVD() throws DVDLibraryDaoException {
         view.displayCreateDVDBanner();
         DVD newDVD = view.getNewDVD();
         dao.addDVD(newDVD.getTitle(), newDVD);
         view.displayCreateSuccessBanner();
     }
-
+    
     private void listDVDs() {
         view.displayDisplayAllBanner();
         view.displayLibrary(dao.getAllDVDs());
         view.displayDisplayLibrarySuccess();
     }
+    
     private void findDVD(){
         view.displayDisplayDVDBanner();
         String dvdTitle = view.getDVDTitle();
@@ -98,15 +95,15 @@ public class DVDLibraryController {
         view.displayDVD(toDisplay);
         view.displayFindDVDCompletion();
     }
-
+    
     private void dropDVD() throws DVDLibraryDaoException{
         view.displayDropDVDBanner();
         String titleToDrop = view.getDVDTitle();
         DVD toDrop = dao.removeDVD(titleToDrop);
         view.displayDropResult(toDrop);
-
+        
     }
-
+    
     private void editDVD() throws DVDLibraryDaoException{
         view.displayEditDVDBanner();
         String titleToEdit = view.getDVDTitle();
@@ -116,56 +113,56 @@ public class DVDLibraryController {
         if(toEdit!= null) {
             
             while(loop){
-               
-            view.displayDVD(toEdit);
-            int option = view.displayEditMenuGetSelection();
-            switch (option) 
-            {
-                //Edit Title
-                case 1:
-                    String newData = view.getNewDVDTitle();
-                    dao.editDVDTitle(toEdit, newData);
-                    break;
-                //Edit Director
-                case 2:
-                    view.editDVDDirector(toEdit);
-                    dao.persistChanges();
-                    break;
-                //Edit Rating
-                case 3:
-                    view.editDVDMpaaRating(toEdit);
-                    dao.persistChanges();
-                    break;
-                //Edit Release Date
-                case 4:
-                    view.editDVDReleaseDate(toEdit);
-                    dao.persistChanges();
-                    break; 
-                //Edit Studio
-                case 5:
-                    view.editDVDStudio(toEdit);
-                    dao.persistChanges();
-                    break;
-                //Edit Misc Info
-                case 6:
-                    view.editDVDMiscInfo(toEdit);
-                    dao.persistChanges();
-                    break;
-                //Break loop
-                case 7:
-                    loop = false;
-                    break;
-                default:
-                    view.displayUnkownCommandBanner();
+                
+                view.displayDVD(toEdit);
+                int option = view.displayEditMenuGetSelection();
+                switch (option)
+                {
+                    //Edit Title
+                    case 1:
+                        String newData = view.getNewDVDTitle();
+                        dao.editDVDTitle(toEdit, newData);
+                        break;
+                        //Edit Director
+                    case 2:
+                        view.editDVDDirector(toEdit);
+                        dao.persistChanges();
+                        break;
+                        //Edit Rating
+                    case 3:
+                        view.editDVDMpaaRating(toEdit);
+                        dao.persistChanges();
+                        break;
+                        //Edit Release Date
+                    case 4:
+                        view.editDVDReleaseDate(toEdit);
+                        dao.persistChanges();
+                        break;
+                        //Edit Studio
+                    case 5:
+                        view.editDVDStudio(toEdit);
+                        dao.persistChanges();
+                        break;
+                        //Edit Misc Info
+                    case 6:
+                        view.editDVDMiscInfo(toEdit);
+                        dao.persistChanges();
+                        break;
+                        //Break loop
+                    case 7:
+                        loop = false;
+                        break;
+                    default:
+                        view.displayUnkownCommandBanner();
+                }
+                view.displayPressEnter();
             }
-            view.displayPressEnter();
         }
-    }
         else{
             view.displayDVDToEditNotFound();
         }
         
     }
     
-   
+    
 }
