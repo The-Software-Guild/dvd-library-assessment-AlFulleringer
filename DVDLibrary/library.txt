@@ -1,3 +1,4 @@
-movieTitle::theDirector::studio::releaseDate::rating::misc
-Lord of the Rings::Peter Jackson::Jackson Studio::2001-01-01::PG-13::Great Film!
-Star Wars: A New Hope::George Lucas::Lucasfilm::1978::PG-13::Fantastic!
+Jungle Cruise::John Smith::E::2021-08-01::Unkown Studio::Lots of Incredibly lame puns
+movieTitle::theDirector::rating::releaseDate::studio::misc
+Lord of the Rings::Peter Jackson::PG-13::2001-01-01::Jackson Studio::Great Film!
+Star Wars: A New Hope::George Lucas::PG-13::1978::Lucasfilm::Fantastic!

@@ -15,9 +15,13 @@ import java.util.List;
  */
 public class DVDLibraryView {
     
-    private UserIO io = new UserIOConsoleImpl();
+    private UserIO io;
     private final int NUM_MAIN_MENU_OPTIONS = 6;
     private final int NUM_EDIT_MENU_OPTIONS = 7;
+    
+    public DVDLibraryView(UserIO io){
+        this.io=io;
+    }
     
     public int printMenuGetSelection(){
         this.printMenu();

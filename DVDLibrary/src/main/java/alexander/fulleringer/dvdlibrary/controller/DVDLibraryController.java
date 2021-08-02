@@ -29,9 +29,10 @@ public class DVDLibraryController {
         this.io = io;
     }
 
+    //Used for testing before implementing Dependency Injection
     public DVDLibraryController() {
         this.io = new UserIOConsoleImpl();
-        this.view = new DVDLibraryView();
+        this.view = new DVDLibraryView(io);
         
         try{
             this.dao = new DVDLibraryDaoFileImpl();
@@ -111,6 +112,7 @@ public class DVDLibraryController {
         String titleToEdit = view.getDVDTitle();
         DVD toEdit = dao.getDVD(titleToEdit);
         boolean loop = true;
+        
         if(toEdit!= null) {
             
             while(loop){
@@ -118,33 +120,37 @@ public class DVDLibraryController {
             view.displayDVD(toEdit);
             int option = view.displayEditMenuGetSelection();
             switch (option) {
+                //Edit Title
                 case 1:
-                    //dao.removeDVD(toEdit.getTitle());
-                    //dao.addDVD(toEdit.getTitle(), toEdit);
-                    
                     String newData = view.getNewDVDTitle();
                     dao.editDVDTitle(toEdit, newData);
                     break;
+                //Edit Director
                 case 2:
                     view.editDVDDirector(toEdit);
                     dao.persistChanges();
                     break;
+                //Edit Rating
                 case 3:
                     view.editDVDMpaaRating(toEdit);
                     dao.persistChanges();
                     break;
+                //Edit Release Date
                 case 4:
                     view.editDVDReleaseDate(toEdit);
                     dao.persistChanges();
                     break; 
+                //Edit Studio
                 case 5:
                     view.editDVDStudio(toEdit);
                     dao.persistChanges();
                     break;
+                //Edit Misc Info
                 case 6:
                     view.editDVDMiscInfo(toEdit);
                     dao.persistChanges();
                     break;
+                //Break loop
                 case 7:
                     loop = false;
                     break;

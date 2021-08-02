@@ -24,12 +24,11 @@ public class App {
         UserIO io;
         
         io = new UserIOConsoleImpl();
-        view = new DVDLibraryView();
+        view = new DVDLibraryView(io);
         
         try{
             dao = new DVDLibraryDaoFileImpl();
             DVDLibraryController controller = new DVDLibraryController(dao, view, io);
-            
             controller.run();
         }
         catch(DVDLibraryDaoException e){
