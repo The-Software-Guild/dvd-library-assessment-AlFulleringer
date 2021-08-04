@@ -124,7 +124,7 @@ public class DVDLibraryController {
                         dao.editDVDTitle(toEdit, newData);
                         break;
                         //Edit Director
-                    case 2:
+                    case 2:                      
                         view.editDVDDirector(toEdit);
                         dao.persistChanges();
                         break;
